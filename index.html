@@ -6,8 +6,20 @@
 <title>Ремонт от А до Я — ремонт квартир под ключ в Нижнем Тагиле</title>
 <meta name="description" content="Ремонт квартир и домов под ключ в Нижнем Тагиле. Договор, смета, гарантия 1 год. Точно в срок, без нервов и переплат.">
 <link rel="icon" type="image/webp" href="favicon.webp">
-<script src="https://cdn.tailwindcss.com" defer></script>
+<link rel="stylesheet" href="styles.css">
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+<script>
+  /* Тема ставится синхронно ДО отрисовки страницы — без этого браузер полсекунды
+     показывает светлую тему, а потом дёргает в тёмную (тот самый "флешбэнг"). */
+  (function(){
+    try{
+      var stored = localStorage.getItem('theme-override');
+      var hour = new Date().getHours();
+      var auto = (hour >= 21 || hour < 8) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', stored || auto);
+    }catch(e){}
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800;900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
@@ -217,7 +229,7 @@
   <div class="glass border-b border-t-0 border-x-0">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 md:h-20 flex items-center justify-between">
       <a href="#top" class="flex items-center gap-3 focus-ring rounded-lg">
-        <img src="favicon.webp" alt="Ремонт от А до Я" class="w-10 h-10 md:w-11 md:h-11 rounded-xl">
+        <img src="favicon.webp" alt="Ремонт от А до Я" width="44" height="44" class="w-10 h-10 md:w-11 md:h-11 rounded-xl">
         <div class="leading-tight">
           <div class="font-display font-extrabold text-sm md:text-base tracking-tight">РЕМОНТ ОТ А ДО Я</div>
           <div class="text-[11px] md:text-xs text-[var(--ink-dim)] font-mono">Нижний Тагил</div>
@@ -233,7 +245,7 @@
         <a href="https://vk.ru/remontotadoya96" target="_blank" rel="noopener" aria-label="Мы во ВКонтакте"
            class="w-10 h-10 rounded-full flex items-center justify-center focus-ring transition-transform hover:scale-105"
            style="background:#fff">
-          <img src="vk-icon.png" alt="ВКонтакте" class="w-5 h-5">
+          <img src="vk-icon.png" alt="ВКонтакте" width="20" height="20" class="w-5 h-5">
         </a>
         <a href="tel:89920116913" class="hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-full btn-primary text-white text-sm font-semibold focus-ring">
           <i data-lucide="phone" class="w-4 h-4"></i>
@@ -671,7 +683,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
       <div class="flex items-center gap-3">
-        <img src="favicon.webp" alt="Ремонт от А до Я" class="w-10 h-10 rounded-xl">
+        <img src="favicon.webp" alt="Ремонт от А до Я" width="40" height="40" class="w-10 h-10 rounded-xl">
         <div>
           <div class="font-display font-extrabold">РЕМОНТ ОТ А ДО Я</div>
           <div class="text-xs text-[var(--ink-faint)] font-mono">Нижний Тагил · с договором и гарантией</div>
@@ -680,7 +692,7 @@
 
       <div class="flex flex-wrap items-center gap-6 text-sm text-[var(--ink-dim)]">
         <a href="tel:89920116913" class="hover:text-[var(--cobalt-bright)] transition-colors flex items-center gap-2 focus-ring rounded"><i data-lucide="phone" class="w-4 h-4"></i>8 992 011-69-13</a>
-        <a href="https://vk.ru/remontotadoya96" target="_blank" rel="noopener" class="hover:text-[var(--cobalt-bright)] transition-colors flex items-center gap-2 focus-ring rounded"><span class="vk-badge"><img src="vk-icon.png" alt="ВКонтакте" class="w-3 h-3" style="opacity:0.75"></span>ВКонтакте</a>
+        <a href="https://vk.ru/remontotadoya96" target="_blank" rel="noopener" class="hover:text-[var(--cobalt-bright)] transition-colors flex items-center gap-2 focus-ring rounded"><span class="vk-badge"><img src="vk-icon.png" alt="ВКонтакте" width="12" height="12" class="w-3 h-3" style="opacity:0.75"></span>ВКонтакте</a>
       </div>
     </div>
     <div class="mt-10 pt-6 border-t text-xs text-[var(--ink-faint)] font-mono" style="border-color:var(--line-soft)">
@@ -696,7 +708,7 @@
       <i data-lucide="phone" class="w-4 h-4"></i> Позвонить
     </a>
     <a href="https://vk.ru/remontotadoya96" target="_blank" rel="noopener" class="mobile-cta mobile-cta-secondary focus-ring flex-1">
-      <span class="vk-badge-solid"><img src="vk-icon.png" alt=""></span> ВКонтакте
+      <span class="vk-badge-solid"><img src="vk-icon.png" alt="" width="12" height="12"></span> ВКонтакте
     </a>
   </div>
 </div>
@@ -705,7 +717,7 @@
 document.addEventListener('DOMContentLoaded', function(){
   lucide.createIcons();
 
-  /* ---------- Theme: dark/light, auto by time of day + manual toggle ---------- */
+  /* ---------- Theme: ручной тоггл + авто-обновление по времени суток ---------- */
   const THEME_KEY = 'theme-override';
   function autoTheme(){
     const h = new Date().getHours();
@@ -714,7 +726,7 @@ document.addEventListener('DOMContentLoaded', function(){
   function applyTheme(theme){
     document.documentElement.setAttribute('data-theme', theme);
   }
-  applyTheme(localStorage.getItem(THEME_KEY) || autoTheme());
+  // Тема уже выставлена инлайн-скриптом в <head> до отрисовки — здесь просто вешаем обработчики
 
   const themeToggle = document.getElementById('theme-toggle');
   if(themeToggle){
