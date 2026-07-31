@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Ремонт от А до Я — ремонт квартир под ключ в Нижнем Тагиле</title>
+<meta name="description" content="Ремонт квартир и домов под ключ в Нижнем Тагиле. Договор, смета, гарантия 1 год. Точно в срок, без нервов и переплат.">
+<link rel="icon" type="image/webp" href="favicon.webp">
+<script src="https://cdn.tailwindcss.com" defer></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800;900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFFFF;
+    --bg-soft:#F6F8FB;
+    --surface:#F3F6FA;
+    --surface-2:#E9EEF5;
+    --line:rgba(18,62,102,0.14);
+    --line-soft:rgba(18,62,102,0.08);
+    --ink:#14202E;
+    --ink-dim:#5B6B7E;
+    --ink-faint:#8B97A6;
+    --cobalt:#123E66;
+    --cobalt-soft:#E7EEF5;
+    --cobalt-bright:#005C8D;
+    --amber:#123E66;
+    --green:#2E9E5B;
+    --yellow:#C98A1E;
+    --red:#C0463A;
+    --track:#C7D2DE;
+  }
+  html[data-theme="dark"]{
+    --bg:#0B1420;
+    --bg-soft:#0E1B29;
+    --surface:#101E2E;
+    --surface-2:#16293D;
+    --line:rgba(255,255,255,0.12);
+    --line-soft:rgba(255,255,255,0.07);
+    --ink:#E8EEF5;
+    --ink-dim:#A9B8CA;
+    --ink-faint:#748296;
+    --cobalt:#3B7BAE;
+    --cobalt-soft:rgba(63,169,224,0.16);
+    --cobalt-bright:#3FA9E0;
+    --amber:#3B7BAE;
+    --track:#2B3E52;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',ui-sans-serif,system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    transition:background-color .35s ease, color .35s ease;
+  }
+  header#navbar .glass,
+  .glass,
+  footer,
+  #reviews{
+    transition:background-color .35s ease, border-color .35s ease, color .35s ease;
+  }
+  .font-display{font-family:'Manrope',ui-sans-serif,system-ui,sans-serif;}
+  .font-mono{font-family:'IBM Plex Mono',ui-monospace,monospace;}
+
+  /* Тонкая координатная сетка чертежа — привязка к теме ремонта, без свечения */
+  .blueprint{
+    background-image:
+      linear-gradient(rgba(18,62,102,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(18,62,102,0.06) 1px, transparent 1px);
+    background-size:44px 44px;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 92%);
+            mask-image: linear-gradient(180deg, #000 0%, transparent 92%);
+  }
+
+  /* Матовые непрозрачные панели — читаемость важнее декора */
+  .glass{
+    background:var(--surface);
+    border:1px solid var(--line);
+  }
+  .glass-hover{transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;}
+  .glass-hover:hover{
+    transform:translateY(-3px);
+    border-color:rgba(0,92,141,0.4);
+    box-shadow:0 12px 30px -14px rgba(18,62,102,0.25);
+  }
+
+  .btn-primary{
+    background:var(--cobalt-bright);
+    box-shadow:0 6px 18px -6px rgba(0,92,141,0.35);
+  }
+  .btn-primary:hover{background:#0A6FA6; transform:translateY(-1px);}
+
+  .status-dot{position:relative;}
+  .status-dot::after{
+    content:'';position:absolute;inset:-4px;border-radius:999px;
+    border:1px solid currentColor;opacity:.5;animation:pulse-ring 2.2s ease-out infinite;
+  }
+  @keyframes pulse-ring{0%{transform:scale(.7);opacity:.6}100%{transform:scale(2.1);opacity:0}}
+
+  .tape-track{background:repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 12px);}
+
+  .portfolio-card{overflow:hidden;}
+  .portfolio-card img{transition:transform .5s ease;}
+  .portfolio-card:hover img{transform:scale(1.06);}
+
+  .tab-btn{transition:background .2s ease, color .2s ease;}
+  .tab-btn[data-active="true"]{
+    background:var(--cobalt-bright);
+    color:#ffffff;
+  }
+
+  .quiz-option{transition:border-color .15s ease, background .15s ease;}
+  .quiz-option[data-selected="true"]{
+    border-color:var(--cobalt-bright);
+    background:var(--cobalt-soft);
+  }
+
+  .step-dot{transition:background .2s ease;}
+
+  ::selection{background:var(--cobalt-bright);color:#ffffff;}
+
+  input[type="range"]{-webkit-appearance:none;appearance:none;height:4px;border-radius:99px;background:var(--track);cursor:pointer;}
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;
+    background:var(--cobalt-bright);border:3px solid var(--bg);box-shadow:0 0 0 1px var(--cobalt-bright);cursor:pointer;
+  }
+  input[type="range"]::-moz-range-track{height:4px;border-radius:99px;background:var(--track);}
+  input[type="range"]::-moz-range-thumb{
+    width:14px;height:14px;border-radius:50%;border:3px solid var(--bg);
+    background:var(--cobalt-bright);box-shadow:0 0 0 1px var(--cobalt-bright);cursor:pointer;
+  }
+
+  /* Theme toggle icon: sun shown in dark theme, moon (+cloud/stars) shown in light theme */
+  #icon-sun{display:none;}
+  #icon-moon{display:block;}
+  html[data-theme="dark"] #icon-sun{display:block; color:#ffffff;}
+  html[data-theme="dark"] #icon-moon{display:none;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
+  }
+
+  .focus-ring:focus-visible{outline:2px solid var(--cobalt-bright);outline-offset:3px;}
+
+  /* Круглая белая подложка под лого ВК в подвале — только в тёмной теме, чтобы значок не сливался с фоном */
+  .vk-badge{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:20px;height:20px;border-radius:50%;background:transparent;
+    transition:background-color .35s ease;
+  }
+  html[data-theme="dark"] .vk-badge{background:#ffffff;}
+
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease, transform .5s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* Ведомость смет — строчки с отбивкой точками, как в печатной смете */
+  .ledger-row{
+    display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+    padding:22px 0; border-bottom:1px solid var(--line-soft);
+  }
+  .ledger-row:first-child{padding-top:0;}
+  .ledger-row .dots{
+    flex:1; border-bottom:1px dotted var(--ink-faint); margin:0 10px; transform:translateY(-6px);
+    min-width:24px; opacity:.5;
+  }
+
+  /* Штамп-гарантия — как реальная печать в углу договора */
+  .stamp{
+    border:2px solid var(--cobalt-bright);
+    border-radius:999px;
+    color:var(--cobalt-bright);
+    transform:rotate(-9deg);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    background:rgba(0,92,141,0.05);
+  }
+  .stamp .ring{
+    border:1px solid var(--cobalt-bright); border-radius:999px; opacity:.55;
+  }
+</style>
+</head>
+<body class="noise">
+
+<!-- ================= NAVBAR ================= -->
+<header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+  <div class="glass border-b border-t-0 border-x-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 md:h-20 flex items-center justify-between">
+      <a href="#top" class="flex items-center gap-3 focus-ring rounded-lg">
+        <img src="favicon.webp" alt="Ремонт от А до Я" class="w-10 h-10 md:w-11 md:h-11 rounded-xl">
+        <div class="leading-tight">
+          <div class="font-display font-extrabold text-sm md:text-base tracking-tight">РЕМОНТ ОТ А ДО Я</div>
+          <div class="text-[11px] md:text-xs text-[var(--ink-dim)] font-mono">Нижний Тагил</div>
+        </div>
+      </a>
+
+      <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full glass" id="status-pill">
+        <span id="status-dot-el" class="status-dot w-2 h-2 rounded-full"></span>
+        <span id="status-text" class="text-xs font-mono text-[var(--ink-dim)]">Проверяем график…</span>
+      </div>
+
+      <div class="flex items-center gap-2 md:gap-3">
+        <a href="https://vk.ru/remontotadoya96" target="_blank" rel="noopener" aria-label="Мы во ВКонтакте"
+           class="w-10 h-10 rounded-full flex items-center justify-center focus-ring transition-transform hover:scale-105"
+           style="background:#fff">
+          <img src="vk-icon.png" alt="ВКонтакте" class="w-5 h-5">
+        </a>
+        <a href="tel:89920116913" class="hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-full btn-primary text-white text-sm font-semibold focus-ring">
+          <i data-lucide="phone" class="w-4 h-4"></i>
+          8 992 011-69-13
+        </a>
+        <button id="theme-toggle" type="button" aria-label="Переключить тему" title="Переключить тему"
+           class="w-10 h-10 rounded-full flex items-center justify-center focus-ring transition-transform hover:scale-105 glass" style="color:var(--ink)">
+          <svg id="icon-sun" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <line x1="12" y1="2" x2="12" y2="4.5"></line>
+            <line x1="12" y1="19.5" x2="12" y2="22"></line>
+            <line x1="4.22" y1="4.22" x2="5.94" y2="5.94"></line>
+            <line x1="18.06" y1="18.06" x2="19.78" y2="19.78"></line>
+            <line x1="2" y1="12" x2="4.5" y2="12"></line>
+            <line x1="19.5" y1="12" x2="22" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.94" y2="18.06"></line>
+            <line x1="18.06" y1="5.94" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg id="icon-moon" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19.5 8.7A6.7 6.7 0 1 1 11.3 2.2a5.2 5.2 0 0 0 8.2 6.5Z"></path>
+            <path d="M3.6 18.3a2.3 2.3 0 0 1 .5-4.5 3.3 3.3 0 0 1 6.2.6 2.3 2.3 0 0 1-.4 3.9H4.3"></path>
+            <path d="M17.2 16.6l.5 1.1 1.1.5-1.1.5-.5 1.1-.5-1.1-1.1-.5 1.1-.5z" fill="currentColor" stroke="none"></path>
+            <circle cx="20.5" cy="13.2" r="0.6" fill="currentColor" stroke="none"></circle>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section id="top" class="relative pt-32 pb-24 md:pt-44 md:pb-32 overflow-hidden">
+  <div class="absolute inset-0 blueprint pointer-events-none"></div>
+  <div class="absolute -top-40 right-0 w-[520px] h-[520px] rounded-full pointer-events-none"
+       style="background:radial-gradient(circle, rgba(0,92,141,0.10), transparent 70%); filter:blur(30px);"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12 items-center">
+    <div class="lg:col-span-7">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs font-mono text-[var(--ink-dim)] mb-6">
+        <i data-lucide="shield-check" class="w-3.5 h-3.5" style="color:var(--green)"></i>
+        Работаем по договору · гарантия 1 год
+      </div>
+
+      <h1 class="font-display font-extrabold tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
+        Ремонт квартир под ключ в&nbsp;Нижнем&nbsp;Тагиле.
+        <span class="block mt-2" style="color:var(--cobalt-bright)">Точно в срок, без нервов и переплат.</span>
+      </h1>
+
+      <p class="mt-6 text-base md:text-lg text-[var(--ink-dim)] max-w-xl leading-relaxed">
+        Работаем по договору с прозрачной сметой. Профессиональный инструмент, идеальная чистота на объекте и гарантия 1 год на все виды работ.
+      </p>
+
+      <div class="mt-9 flex flex-col sm:flex-row gap-3">
+        <a href="#quiz" class="focus-ring inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl btn-primary text-white font-semibold text-sm transition-all">
+          Рассчитать стоимость
+          <i data-lucide="arrow-down" class="w-4 h-4"></i>
+        </a>
+        <a href="tel:89920116913" class="focus-ring inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl glass glass-hover font-semibold text-sm transition-all">
+          <i data-lucide="phone-call" class="w-4 h-4" style="color:var(--cobalt-bright)"></i>
+          Позвонить сейчас
+        </a>
+      </div>
+
+      <div class="mt-12 grid grid-cols-3 gap-4 max-w-md tape-track pt-4">
+        <div>
+          <div class="font-display font-extrabold text-2xl md:text-3xl">120+</div>
+          <div class="text-xs text-[var(--ink-faint)] mt-1">объектов сдано</div>
+        </div>
+        <div>
+          <div class="font-display font-extrabold text-2xl md:text-3xl">1 год</div>
+          <div class="text-xs text-[var(--ink-faint)] mt-1">гарантии</div>
+        </div>
+        <div>
+          <div class="font-display font-extrabold text-2xl md:text-3xl">0 ₽</div>
+          <div class="text-xs text-[var(--ink-faint)] mt-1">скрытых доплат</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-5">
+      <div class="relative rounded-[28px] overflow-hidden glass p-2">
+        <img src="img/portfolio-1.jpg" alt="Ремонт квартиры под ключ" class="w-full h-[420px] md:h-[520px] object-cover rounded-[22px]">
+        <div class="absolute bottom-6 left-6 right-6 glass rounded-2xl p-4 flex items-center gap-3">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center" style="background:var(--cobalt-soft)">
+            <i data-lucide="clipboard-check" class="w-5 h-5" style="color:var(--cobalt-bright)"></i>
+          </div>
+          <div>
+            <div class="text-sm font-semibold">Смета фиксируется в договоре</div>
+            <div class="text-xs text-[var(--ink-faint)]">Никаких сюрпризов после старта работ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section id="services" class="relative py-20 md:py-28 border-t" style="border-color:var(--line-soft)">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="reveal max-w-2xl mb-14">
+      <div class="text-xs font-mono uppercase tracking-widest" style="color:var(--cobalt-bright)">Услуги</div>
+      <h2 class="font-display font-extrabold text-3xl md:text-4xl tracking-tight mt-3">Что мы делаем</h2>
+      <p class="text-[var(--ink-dim)] mt-3">От косметического освежения до капитального ремонта под ключ — считаем стоимость честно, по факту объёма работ.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <!-- service card template -->
+      <div class="reveal glass glass-hover rounded-3xl p-6">
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-5" style="background:var(--cobalt-soft)">
+          <i data-lucide="paintbrush" class="w-5 h-5" style="color:var(--cobalt-bright)"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg">Косметический ремонт</h3>
+        <p class="text-sm text-[var(--ink-dim)] mt-2 leading-relaxed">Обновление стен, потолков, полов без затрагивания коммуникаций.</p>
+        <div class="mt-5 font-mono text-sm" style="color:var(--amber)">от 3 000 ₽/м²</div>
+      </div>
+
+      <div class="reveal glass glass-hover rounded-3xl p-6">
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-5" style="background:var(--cobalt-soft)">
+          <i data-lucide="hammer" class="w-5 h-5" style="color:var(--cobalt-bright)"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg">Капитальный ремонт</h3>
+        <p class="text-sm text-[var(--ink-dim)] mt-2 leading-relaxed">Полная замена коммуникаций, стяжка, штукатурка «под ключ».</p>
+        <div class="mt-5 font-mono text-sm" style="color:var(--amber)">от 7 000 ₽/м²</div>
+      </div>
+
+      <div class="reveal glass glass-hover rounded-3xl p-6">
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-5" style="background:var(--cobalt-soft)">
+          <i data-lucide="bath" class="w-5 h-5" style="color:var(--cobalt-bright)"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg">Ремонт ванной</h3>
+        <p class="text-sm text-[var(--ink-dim)] mt-2 leading-relaxed">Гидроизоляция, плитка, сантехника, разводка под ключ.</p>
+        <div class="mt-5 font-mono text-sm" style="color:var(--amber)">от 60 000 ₽</div>
+      </div>
+
+      <div class="reveal glass glass-hover rounded-3xl p-6">
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-5" style="background:var(--cobalt-soft)">
+          <i data-lucide="cooking-pot" class="w-5 h-5" style="color:var(--cobalt-bright)"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg">Ремонт кухни</h3>
+        <p class="text-sm text-[var(--ink-dim)] mt-2 leading-relaxed">Отделка, электрика под технику, подготовка под мебель.</p>
+        <div class="mt-5 font-mono text-sm" style="color:var(--amber)">от 60 000 ₽</div>
+      </div>
+
+      <div class="reveal glass glass-hover rounded-3xl p-6">
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-5" style="background:var(--cobalt-soft)">
+          <i data-lucide="ruler" class="w-5 h-5" style="color:var(--cobalt-bright)"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg">Дизайн интерьера</h3>
+        <p class="text-sm text-[var(--ink-dim)] mt-2 leading-relaxed">Планировка, визуализация и подбор материалов до начала работ.</p>
+        <div class="mt-5 font-mono text-sm" style="color:var(--amber)">по запросу</div>
+      </div>
+
+      <div class="reveal glass glass-hover rounded-3xl p-6">
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-5" style="background:var(--cobalt-soft)">
+          <i data-lucide="layers" class="w-5 h-5" style="color:var(--cobalt-bright)"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg">Укладка ламината</h3>
+        <p class="text-sm text-[var(--ink-dim)] mt-2 leading-relaxed">Выравнивание основания, подложка, монтаж без щелей.</p>
+        <div class="mt-5 font-mono text-sm" style="color:var(--amber)">от 400 ₽/м²</div>
+      </div>
+
+      <div class="reveal glass glass-hover rounded-3xl p-6">
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-5" style="background:var(--cobalt-soft)">
+          <i data-lucide="grid-3x3" class="w-5 h-5" style="color:var(--cobalt-bright)"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg">Укладка плитки</h3>
+        <p class="text-sm text-[var(--ink-dim)] mt-2 leading-relaxed">Ровные швы, точная подрезка, гидроизоляция при необходимости.</p>
+        <div class="mt-5 font-mono text-sm" style="color:var(--amber)">от 900 ₽/м²</div>
+      </div>
+
+      <div class="reveal glass glass-hover rounded-3xl p-6">
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-5" style="background:var(--cobalt-soft)">
+          <i data-lucide="wrench" class="w-5 h-5" style="color:var(--cobalt-bright)"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg">Сантехника</h3>
+        <p class="text-sm text-[var(--ink-dim)] mt-2 leading-relaxed">Замена труб, монтаж смесителей, установка приборов.</p>
+        <div class="mt-5 font-mono text-sm" style="color:var(--amber)">от 2 500 ₽/точка</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PORTFOLIO ================= -->
+<section id="portfolio" class="relative py-20 md:py-28 border-t" style="border-color:var(--line-soft)">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="reveal flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+      <div class="max-w-xl">
+        <div class="text-xs font-mono uppercase tracking-widest" style="color:var(--cobalt-bright)">Портфолио</div>
+        <h2 class="font-display font-extrabold text-3xl md:text-4xl tracking-tight mt-3">Реализованные объекты</h2>
+      </div>
+
+      <div class="flex flex-wrap gap-2" id="portfolio-tabs">
+        <button data-filter="all" data-active="true" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold glass focus-ring">Все работы</button>
+        <button data-filter="bath" data-active="false" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold glass focus-ring">Ванные</button>
+        <button data-filter="kitchen" data-active="false" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold glass focus-ring">Кухни</button>
+        <button data-filter="room" data-active="false" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold glass focus-ring">Комнаты</button>
+      </div>
+    </div>
+
+    <div id="portfolio-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="portfolio-card reveal rounded-3xl glass" data-category="kitchen">
+        <div class="overflow-hidden rounded-t-3xl h-64"><img loading="lazy" src="img/portfolio-2.jpg" alt="Ремонт кухни под ключ" class="w-full h-full object-cover"></div>
+        <div class="p-5"><h3 class="font-semibold">Кухня с трековым освещением</h3><p class="text-xs text-[var(--ink-faint)] mt-1">Встроенная техника, трековые светильники</p></div>
+      </div>
+      <div class="portfolio-card reveal rounded-3xl glass" data-category="bath">
+        <div class="overflow-hidden rounded-t-3xl h-64"><img loading="lazy" src="img/portfolio-3.jpg" alt="Ремонт санузла с сушителем" class="w-full h-full object-cover"></div>
+        <div class="p-5"><h3 class="font-semibold">Санузел, тёплые тона</h3><p class="text-xs text-[var(--ink-faint)] mt-1">Керамогранит, скрытая подсветка зеркала</p></div>
+      </div>
+      <div class="portfolio-card reveal rounded-3xl glass" data-category="bath">
+        <div class="overflow-hidden rounded-t-3xl h-64"><img loading="lazy" src="img/portfolio-4.jpg" alt="Ванная комната с зоной стирки" class="w-full h-full object-cover"></div>
+        <div class="p-5"><h3 class="font-semibold">Ванная под мрамор</h3><p class="text-xs text-[var(--ink-faint)] mt-1">Мрамор, встроенная стиральная машина</p></div>
+      </div>
+      <div class="portfolio-card reveal rounded-3xl glass" data-category="room">
+        <div class="overflow-hidden rounded-t-3xl h-64"><img loading="lazy" src="img/portfolio-5.jpg" alt="Многоуровневый потолок с подсветкой" class="w-full h-full object-cover"></div>
+        <div class="p-5"><h3 class="font-semibold">Потолок, световые линии</h3><p class="text-xs text-[var(--ink-faint)] mt-1">Парящие линии освещения, натяжной потолок</p></div>
+      </div>
+      <div class="portfolio-card reveal rounded-3xl glass" data-category="room">
+        <div class="overflow-hidden rounded-t-3xl h-64"><img loading="lazy" src="img/portfolio-6.jpg" alt="Спальня с контурной RGB-подсветкой" class="w-full h-full object-cover"></div>
+        <div class="p-5"><h3 class="font-semibold">Спальня в тёмных тонах</h3><p class="text-xs text-[var(--ink-faint)] mt-1">RGB-контур по периметру потолка, ТВ-зона</p></div>
+      </div>
+      <div class="portfolio-card reveal rounded-3xl glass" data-category="room">
+        <div class="overflow-hidden rounded-t-3xl h-64"><img loading="lazy" src="img/portfolio-7.jpg" alt="Комната с фигурной подсветкой потолка" class="w-full h-full object-cover"></div>
+        <div class="p-5"><h3 class="font-semibold">Комната, геометрия света</h3><p class="text-xs text-[var(--ink-faint)] mt-1">Фигурная подсветка, дверной проём в гардеробную</p></div>
+      </div>
+      <div class="portfolio-card reveal rounded-3xl glass" data-category="general">
+        <div class="overflow-hidden rounded-t-3xl h-64"><img loading="lazy" src="img/portfolio-8.jpg" alt="Готовая комната после ремонта" class="w-full h-full object-cover"></div>
+        <div class="p-5"><h3 class="font-semibold">Комната под чистовую отделку</h3><p class="text-xs text-[var(--ink-faint)] mt-1">Точечные светильники, ламинат, чистовая отделка</p></div>
+      </div>
+      <div class="portfolio-card reveal rounded-3xl glass" data-category="general">
+        <div class="overflow-hidden rounded-t-3xl h-64"><img loading="lazy" src="img/portfolio-9.jpg" alt="Прихожая после ремонта" class="w-full h-full object-cover"></div>
+        <div class="p-5"><h3 class="font-semibold">Коридор и входная группа</h3><p class="text-xs text-[var(--ink-faint)] mt-1">Входная дверь, электрощит, ламинат</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ADVANTAGES ================= -->
+<section id="advantages" class="relative py-20 md:py-28 border-t" style="border-color:var(--line-soft)">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="reveal max-w-2xl mb-14">
+      <div class="text-xs font-mono uppercase tracking-widest" style="color:var(--cobalt-bright)">Почему мы</div>
+      <h2 class="font-display font-extrabold text-3xl md:text-4xl tracking-tight mt-3">Из реальных отзывов клиентов</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="reveal glass glass-hover rounded-3xl p-7">
+        <i data-lucide="file-text" class="w-6 h-6 mb-4" style="color:var(--green)"></i>
+        <h3 class="font-display font-bold">Прозрачная смета</h3>
+        <p class="text-sm text-[var(--ink-dim)] mt-2 leading-relaxed">Никаких скрытых платежей и предоплат без расписки — всё фиксируется в договоре.</p>
+      </div>
+      <div class="reveal glass glass-hover rounded-3xl p-7">
+        <i data-lucide="sparkles" class="w-6 h-6 mb-4" style="color:var(--green)"></i>
+        <h3 class="font-display font-bold">Чистота и порядок</h3>
+        <p class="text-sm text-[var(--ink-dim)] mt-2 leading-relaxed">Убираем за собой каждый день и работаем аккуратно, не мешая соседям.</p>
+      </div>
+      <div class="reveal glass glass-hover rounded-3xl p-7">
+        <i data-lucide="calendar-check" class="w-6 h-6 mb-4" style="color:var(--green)"></i>
+        <h3 class="font-display font-bold">Точные сроки</h3>
+        <p class="text-sm text-[var(--ink-dim)] mt-2 leading-relaxed">Сдаём объекты день в день, как указано в договоре — без переносов.</p>
+      </div>
+      <div class="reveal glass glass-hover rounded-3xl p-7">
+        <i data-lucide="badge-check" class="w-6 h-6 mb-4" style="color:var(--green)"></i>
+        <h3 class="font-display font-bold">Качество работ</h3>
+        <p class="text-sm text-[var(--ink-dim)] mt-2 leading-relaxed">Используем только профессиональный инструмент и проверенные материалы.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= QUIZ CALCULATOR ================= -->
+<section id="quiz" class="relative py-20 md:py-28 border-t" style="border-color:var(--line-soft)">
+  <div class="absolute inset-0 blueprint pointer-events-none opacity-60"></div>
+  <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="reveal text-center mb-10">
+      <div class="text-xs font-mono uppercase tracking-widest" style="color:var(--cobalt-bright)">Калькулятор</div>
+      <h2 class="font-display font-extrabold text-3xl md:text-4xl tracking-tight mt-3">Рассчитайте стоимость за 30 секунд</h2>
+      <p class="text-[var(--ink-dim)] mt-3">Ответьте на 4 вопроса — сформируем заявку и отправим менеджеру во ВКонтакте.</p>
+    </div>
+
+    <div class="reveal glass rounded-[28px] p-6 md:p-10">
+      <!-- progress: styled like a tape measure -->
+      <div class="flex items-center gap-2 mb-10">
+        <div class="step-dot flex-1 h-1.5 rounded-full" data-step-bar="1" style="background:var(--cobalt-bright)"></div>
+        <div class="step-dot flex-1 h-1.5 rounded-full" data-step-bar="2" style="background:var(--line)"></div>
+        <div class="step-dot flex-1 h-1.5 rounded-full" data-step-bar="3" style="background:var(--line)"></div>
+        <div class="step-dot flex-1 h-1.5 rounded-full" data-step-bar="4" style="background:var(--line)"></div>
+      </div>
+
+      <!-- STEP 1 -->
+      <div class="quiz-step" data-step="1">
+        <div class="text-xs font-mono text-[var(--ink-faint)] mb-2">ШАГ 1 ИЗ 4</div>
+        <h3 class="font-display font-bold text-xl mb-6">Какое помещение ремонтируем?</h3>
+        <div class="grid grid-cols-2 gap-3" id="q1-options">
+          <button class="quiz-option text-left glass rounded-2xl p-5 border border-transparent focus-ring" data-value="Квартира">
+            <i data-lucide="home" class="w-5 h-5 mb-3" style="color:var(--cobalt-bright)"></i>
+            <div class="font-semibold text-sm">Квартира</div>
+          </button>
+          <button class="quiz-option text-left glass rounded-2xl p-5 border border-transparent focus-ring" data-value="Дом">
+            <i data-lucide="house" class="w-5 h-5 mb-3" style="color:var(--cobalt-bright)"></i>
+            <div class="font-semibold text-sm">Дом</div>
+          </button>
+          <button class="quiz-option text-left glass rounded-2xl p-5 border border-transparent focus-ring" data-value="Ванная">
+            <i data-lucide="bath" class="w-5 h-5 mb-3" style="color:var(--cobalt-bright)"></i>
+            <div class="font-semibold text-sm">Ванная</div>
+          </button>
+          <button class="quiz-option text-left glass rounded-2xl p-5 border border-transparent focus-ring" data-value="Кухня">
+            <i data-lucide="cooking-pot" class="w-5 h-5 mb-3" style="color:var(--cobalt-bright)"></i>
+            <div class="font-semibold text-sm">Кухня</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="quiz-step hidden" data-step="2">
+        <div class="text-xs font-mono text-[var(--ink-faint)] mb-2">ШАГ 2 ИЗ 4</div>
+        <h3 class="font-display font-bold text-xl mb-8">Какая площадь, м²?</h3>
+        <div class="text-center mb-6">
+          <span class="font-display font-extrabold text-5xl" id="area-value" style="color:var(--cobalt-bright)">45</span>
+          <span class="text-[var(--ink-dim)] text-lg"> м²</span>
+        </div>
+        <input type="range" min="5" max="200" value="45" id="area-range" class="w-full focus-ring">
+        <div class="flex justify-between text-xs text-[var(--ink-faint)] mt-2 font-mono"><span>5 м²</span><span>200 м²</span></div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="quiz-step hidden" data-step="3">
+        <div class="text-xs font-mono text-[var(--ink-faint)] mb-2">ШАГ 3 ИЗ 4</div>
+        <h3 class="font-display font-bold text-xl mb-6">Нужен демонтаж старой отделки?</h3>
+        <div class="grid grid-cols-2 gap-3" id="q3-options">
+          <button class="quiz-option text-left glass rounded-2xl p-5 border border-transparent focus-ring" data-value="Да, нужен демонтаж">
+            <i data-lucide="hammer" class="w-5 h-5 mb-3" style="color:var(--cobalt-bright)"></i>
+            <div class="font-semibold text-sm">Да, нужен</div>
+          </button>
+          <button class="quiz-option text-left glass rounded-2xl p-5 border border-transparent focus-ring" data-value="Нет, чистовая отделка">
+            <i data-lucide="check-circle-2" class="w-5 h-5 mb-3" style="color:var(--cobalt-bright)"></i>
+            <div class="font-semibold text-sm">Нет, не нужен</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="quiz-step hidden" data-step="4">
+        <div class="text-xs font-mono text-[var(--ink-faint)] mb-2">ШАГ 4 ИЗ 4</div>
+        <h3 class="font-display font-bold text-xl mb-6">Ваши контакты</h3>
+        <div class="space-y-4">
+          <div>
+            <label class="text-xs text-[var(--ink-faint)] font-mono" for="q4-name">Имя</label>
+            <input id="q4-name" type="text" placeholder="Как к вам обращаться" class="focus-ring mt-1.5 w-full rounded-xl px-4 py-3 bg-transparent glass text-sm outline-none">
+          </div>
+          <div>
+            <label class="text-xs text-[var(--ink-faint)] font-mono" for="q4-phone">Телефон</label>
+            <input id="q4-phone" type="tel" placeholder="+7 ___ ___-__-__" class="focus-ring mt-1.5 w-full rounded-xl px-4 py-3 bg-transparent glass text-sm outline-none">
+          </div>
+        </div>
+      </div>
+
+      <!-- NAV -->
+      <div class="flex items-center justify-between mt-10">
+        <button id="quiz-back" class="focus-ring text-sm font-semibold text-[var(--ink-dim)] hover:text-[var(--cobalt-bright)] transition-colors disabled:opacity-30" disabled>
+          ← Назад
+        </button>
+        <button id="quiz-next" class="focus-ring inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl btn-primary text-white font-semibold text-sm">
+          Далее
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div id="quiz-status" class="mt-4 text-sm text-center font-mono hidden" style="color:var(--green)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DOCUMENTS ================= -->
+<section id="documents" class="relative py-20 md:py-28 border-t" style="border-color:var(--line-soft)">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="reveal max-w-2xl mb-14">
+      <div class="text-xs font-mono uppercase tracking-widest" style="color:var(--cobalt-bright)">Документы</div>
+      <h2 class="font-display font-extrabold text-3xl md:text-4xl tracking-tight mt-3">Шаблоны, по которым мы работаем</h2>
+      <p class="text-[var(--ink-dim)] mt-3">Скачайте и ознакомьтесь заранее — работаем открыто, скрывать нечего.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-3 gap-5">
+      <div class="reveal glass glass-hover rounded-3xl p-7 flex flex-col">
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-5" style="background:var(--cobalt-soft)">
+          <i data-lucide="file-text" class="w-5 h-5" style="color:var(--cobalt-bright)"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg">Договор подряда</h3>
+        <p class="text-sm text-[var(--ink-dim)] mt-2 leading-relaxed flex-1">Типовой договор с фиксацией сроков, сметы и гарантий.</p>
+        <a href="service-contract.docx" download="Договор подряда.docx" class="focus-ring mt-6 inline-flex items-center gap-2 text-sm font-semibold" style="color:var(--cobalt-bright)">
+          Скачать DOCX <i data-lucide="download" class="w-4 h-4"></i>
+        </a>
+      </div>
+      <div class="reveal glass glass-hover rounded-3xl p-7 flex flex-col">
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-5" style="background:var(--cobalt-soft)">
+          <i data-lucide="receipt" class="w-5 h-5" style="color:var(--cobalt-bright)"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg">Расписка о получении</h3>
+        <p class="text-sm text-[var(--ink-dim)] mt-2 leading-relaxed flex-1">Подтверждение получения средств по этапам работ.</p>
+        <a href="receipt.docx" download="Расписка о получении.docx" class="focus-ring mt-6 inline-flex items-center gap-2 text-sm font-semibold" style="color:var(--cobalt-bright)">
+          Скачать DOCX <i data-lucide="download" class="w-4 h-4"></i>
+        </a>
+      </div>
+      <div class="reveal glass glass-hover rounded-3xl p-7 flex flex-col">
+        <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-5" style="background:var(--cobalt-soft)">
+          <i data-lucide="clipboard-check" class="w-5 h-5" style="color:var(--cobalt-bright)"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg">Акт сдачи-приёмки</h3>
+        <p class="text-sm text-[var(--ink-dim)] mt-2 leading-relaxed flex-1">Финальный документ по завершении и приёмке объекта.</p>
+        <a href="act-of-transfer-and-acceptance.docx" download="Акт сдачи-приёмки.docx" class="focus-ring mt-6 inline-flex items-center gap-2 text-sm font-semibold" style="color:var(--cobalt-bright)">
+          Скачать DOCX <i data-lucide="download" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= REVIEWS ================= -->
+<section id="reviews" class="relative py-20 md:py-28 border-t" style="border-color:var(--line-soft); background:var(--bg-soft);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="reveal text-center max-w-2xl mx-auto mb-12">
+      <div class="text-xs font-mono uppercase tracking-widest" style="color:var(--cobalt-bright)">Отзывы</div>
+      <h2 class="font-display font-extrabold text-3xl md:text-4xl tracking-tight mt-3">Что говорят клиенты на Яндекс Картах</h2>
+      <p class="text-sm mt-3 text-[var(--ink-dim)]">Реальные отзывы с нашей карточки на Яндекс Картах — без фильтров и накруток.</p>
+    </div>
+    <div class="reveal flex justify-center">
+      <div style="width:100%;max-width:560px;height:800px;overflow:hidden;position:relative;margin:0 auto;border-radius:24px;background:#ffffff;box-shadow:0 20px 50px -24px rgba(18,62,102,0.25);border:1px solid var(--line);">
+        <iframe style="width:100%;height:100%;border:0;border-radius:24px;" src="https://yandex.ru/maps-reviews-widget/71980081285?comments" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="relative pt-16 pb-28 md:pb-16 border-t" style="border-color:var(--line-soft);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+      <div class="flex items-center gap-3">
+        <img src="favicon.webp" alt="Ремонт от А до Я" class="w-10 h-10 rounded-xl">
+        <div>
+          <div class="font-display font-extrabold">РЕМОНТ ОТ А ДО Я</div>
+          <div class="text-xs text-[var(--ink-faint)] font-mono">Нижний Тагил · с договором и гарантией</div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-6 text-sm text-[var(--ink-dim)]">
+        <a href="tel:89920116913" class="hover:text-[var(--cobalt-bright)] transition-colors flex items-center gap-2 focus-ring rounded"><i data-lucide="phone" class="w-4 h-4"></i>8 992 011-69-13</a>
+        <a href="https://vk.ru/remontotadoya96" target="_blank" rel="noopener" class="hover:text-[var(--cobalt-bright)] transition-colors flex items-center gap-2 focus-ring rounded"><span class="vk-badge"><img src="vk-icon.png" alt="ВКонтакте" class="w-3 h-3" style="opacity:0.75"></span>ВКонтакте</a>
+      </div>
+    </div>
+    <div class="mt-10 pt-6 border-t text-xs text-[var(--ink-faint)] font-mono" style="border-color:var(--line-soft)">
+      © 2026 Ремонт от А до Я. Все права защищены.
+    </div>
+  </div>
+</footer>
+
+<!-- ================= MOBILE STICKY BAR ================= -->
+<div class="fixed bottom-0 inset-x-0 z-50 md:hidden">
+  <div class="glass border-t border-x-0 border-b-0 grid grid-cols-2 gap-px" style="border-color:var(--line)">
+    <a href="tel:89920116913" class="flex items-center justify-center gap-2 py-4 font-semibold text-sm focus-ring" style="background:var(--cobalt);color:#fff">
+      <i data-lucide="phone" class="w-4 h-4"></i> Позвонить
+    </a>
+    <a href="https://vk.ru/remontotadoya96" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 py-4 font-semibold text-sm focus-ring">
+      <img src="vk-icon.png" alt="ВКонтакте" class="w-4 h-4"> ВКонтакте
+    </a>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  lucide.createIcons();
+
+  /* ---------- Theme: dark/light, auto by time of day + manual toggle ---------- */
+  const THEME_KEY = 'theme-override';
+  function autoTheme(){
+    const h = new Date().getHours();
+    return (h >= 21 || h < 8) ? 'dark' : 'light';
+  }
+  function applyTheme(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+  }
+  applyTheme(localStorage.getItem(THEME_KEY) || autoTheme());
+
+  const themeToggle = document.getElementById('theme-toggle');
+  if(themeToggle){
+    themeToggle.addEventListener('click', function(){
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      localStorage.setItem(THEME_KEY, next);
+    });
+  }
+  // Keep following the clock if the person hasn't manually chosen a theme
+  setInterval(function(){
+    if(!localStorage.getItem(THEME_KEY)){ applyTheme(autoTheme()); }
+  }, 5 * 60 * 1000);
+
+  /* ---------- Reveal on scroll ---------- */
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  /* ---------- Dynamic work status: Пн-Вс 09:00-20:00 ---------- */
+  function updateStatus(){
+    const now = new Date();
+    const h = now.getHours() + now.getMinutes()/60;
+    const dot = document.getElementById('status-dot-el');
+    const text = document.getElementById('status-text');
+    let color, label;
+    if(h >= 9 && h < 19){
+      color = getComputedStyle(document.documentElement).getPropertyValue('--green');
+      label = 'Открыто · до 20:00';
+    } else if(h >= 19 && h < 20){
+      color = getComputedStyle(document.documentElement).getPropertyValue('--yellow');
+      label = 'Скоро закроемся';
+    } else {
+      color = getComputedStyle(document.documentElement).getPropertyValue('--ink-faint');
+      label = 'Закрыто · с 09:00';
+    }
+    dot.style.background = color.trim();
+    dot.style.color = color.trim();
+    text.textContent = label;
+    text.style.color = color.trim();
+  }
+  updateStatus();
+  setInterval(updateStatus, 60000);
+
+  /* ---------- Navbar shrink shadow on scroll ---------- */
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', ()=>{
+    if(window.scrollY > 12){ nav.style.boxShadow = '0 12px 30px -14px rgba(0,0,0,0.5)'; }
+    else{ nav.style.boxShadow = 'none'; }
+  });
+
+  /* ---------- Portfolio tabs ---------- */
+  const tabs = document.querySelectorAll('#portfolio-tabs .tab-btn');
+  const cards = document.querySelectorAll('#portfolio-grid .portfolio-card');
+  tabs.forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      tabs.forEach(t=>t.dataset.active='false');
+      tab.dataset.active='true';
+      const filter = tab.dataset.filter;
+      cards.forEach(card=>{
+        const show = filter==='all' || card.dataset.category===filter;
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  });
+
+  /* ---------- Quiz calculator ---------- */
+  const state = { room:null, area:45, demolition:null, name:'', phone:'' };
+  let currentStep = 1;
+  const totalSteps = 4;
+
+  function setActiveOption(container, btn){
+    container.querySelectorAll('.quiz-option').forEach(o=>o.dataset.selected='false');
+    btn.dataset.selected='true';
+  }
+
+  document.querySelectorAll('#q1-options .quiz-option').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ state.room = btn.dataset.value; setActiveOption(document.getElementById('q1-options'), btn); });
+  });
+  document.querySelectorAll('#q3-options .quiz-option').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ state.demolition = btn.dataset.value; setActiveOption(document.getElementById('q3-options'), btn); });
+  });
+
+  const areaRange = document.getElementById('area-range');
+  const areaValue = document.getElementById('area-value');
+  areaRange.addEventListener('input', ()=>{ state.area = areaRange.value; areaValue.textContent = areaRange.value; });
+
+  const nextBtn = document.getElementById('quiz-next');
+  const backBtn = document.getElementById('quiz-back');
+  const statusEl = document.getElementById('quiz-status');
+
+  function renderStep(){
+    document.querySelectorAll('.quiz-step').forEach(s=>{
+      s.classList.toggle('hidden', parseInt(s.dataset.step) !== currentStep);
+    });
+    document.querySelectorAll('[data-step-bar]').forEach(bar=>{
+      const idx = parseInt(bar.dataset.stepBar);
+      bar.style.background = idx <= currentStep
+        ? getComputedStyle(document.documentElement).getPropertyValue('--cobalt-bright')
+        : getComputedStyle(document.documentElement).getPropertyValue('--line');
+    });
+    backBtn.disabled = currentStep === 1;
+    nextBtn.innerHTML = currentStep === totalSteps
+      ? 'Отправить заявку <i data-lucide="send" class="w-4 h-4"></i>'
+      : 'Далее <i data-lucide="arrow-right" class="w-4 h-4"></i>';
+    lucide.createIcons();
+    statusEl.classList.add('hidden');
+  }
+
+  function validateStep(){
+    if(currentStep===1 && !state.room){ return 'Выберите тип помещения'; }
+    if(currentStep===3 && !state.demolition){ return 'Выберите нужен ли демонтаж'; }
+    if(currentStep===4){
+      const name = document.getElementById('q4-name').value.trim();
+      const phone = document.getElementById('q4-phone').value.trim();
+      if(!name || !phone){ return 'Заполните имя и телефон'; }
+      state.name = name; state.phone = phone;
+    }
+    return null;
+  }
+
+  backBtn.addEventListener('click', ()=>{ if(currentStep>1){ currentStep--; renderStep(); } });
+
+  nextBtn.addEventListener('click', ()=>{
+    const err = validateStep();
+    if(err){
+      statusEl.textContent = err;
+      statusEl.style.color = getComputedStyle(document.documentElement).getPropertyValue('--red');
+      statusEl.classList.remove('hidden');
+      return;
+    }
+    if(currentStep < totalSteps){
+      currentStep++;
+      renderStep();
+    } else {
+      submitQuiz();
+    }
+  });
+
+  function submitQuiz(){
+    const message =
+`Заявка с сайта "Ремонт от А до Я"
+Помещение: ${state.room}
+Площадь: ${state.area} м²
+Демонтаж: ${state.demolition}
+Имя: ${state.name}
+Телефон: ${state.phone}`;
+
+    const finish = (copied)=>{
+      statusEl.textContent = copied
+        ? 'Текст заявки скопирован — вставьте его в диалог ВКонтакте'
+        : 'Открываем ВКонтакте — скопируйте текст заявки вручную';
+      statusEl.style.color = getComputedStyle(document.documentElement).getPropertyValue('--green');
+      statusEl.classList.remove('hidden');
+
+      if(copied){
+        alert('Текст заявки скопирован в буфер обмена.\n\nСейчас откроется диалог ВКонтакте — вставьте скопированный текст (Ctrl+V или долгое нажатие → «Вставить») и отправьте сообщение.');
+      } else {
+        alert('Не удалось скопировать текст автоматически.\n\nСкопируйте текст заявки вручную и вставьте его в открывшийся диалог ВКонтакте:\n\n' + message);
+      }
+
+      window.open('https://vk.me/remontotadoya96', '_blank');
+    };
+
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(message).then(()=>finish(true)).catch(()=>finish(false));
+    } else {
+      finish(false);
+    }
+  }
+
+  renderStep();
+});
+</script>
+</body>
+</html>
