@@ -152,6 +152,35 @@
   }
   html[data-theme="dark"] .vk-badge{background:#ffffff;}
 
+  /* Мобильная нижняя панель — две плавающие кнопки-пилюли */
+  .mobile-bar{
+    padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+    background:linear-gradient(180deg, transparent, var(--bg) 28%);
+  }
+  .mobile-cta{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    padding:14px 14px;border-radius:16px;
+    font-weight:700;font-size:14px;letter-spacing:-0.01em;
+    transition:transform .15s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease;
+  }
+  .mobile-cta:active{transform:scale(0.96);}
+  .mobile-cta-primary{
+    background:var(--cobalt-bright);color:#ffffff;
+    box-shadow:0 12px 26px -10px rgba(0,92,141,0.55);
+  }
+  .mobile-cta-primary:active{box-shadow:0 6px 16px -8px rgba(0,92,141,0.5);}
+  .mobile-cta-secondary{
+    background:var(--surface);color:var(--ink);
+    border:1px solid var(--line);
+    box-shadow:0 8px 20px -12px rgba(18,62,102,0.3);
+  }
+  .vk-badge-solid{
+    display:inline-flex;align-items:center;justify-content:center;
+    flex-shrink:0;width:20px;height:20px;border-radius:50%;
+    background:#ffffff;box-shadow:0 0 0 1px var(--line-soft);
+  }
+  .vk-badge-solid img{width:12px;height:12px;}
+
   .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease, transform .5s ease;}
   .reveal.in{opacity:1;transform:translateY(0);}
 
@@ -661,13 +690,13 @@
 </footer>
 
 <!-- ================= MOBILE STICKY BAR ================= -->
-<div class="fixed bottom-0 inset-x-0 z-50 md:hidden">
-  <div class="glass border-t border-x-0 border-b-0 grid grid-cols-2 gap-px" style="border-color:var(--line)">
-    <a href="tel:89920116913" class="flex items-center justify-center gap-2 py-4 font-semibold text-sm focus-ring" style="background:var(--cobalt);color:#fff">
+<div class="fixed bottom-0 inset-x-0 z-50 md:hidden mobile-bar">
+  <div class="flex items-center gap-2 max-w-md mx-auto">
+    <a href="tel:89920116913" class="mobile-cta mobile-cta-primary focus-ring flex-1">
       <i data-lucide="phone" class="w-4 h-4"></i> Позвонить
     </a>
-    <a href="https://vk.ru/remontotadoya96" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 py-4 font-semibold text-sm focus-ring">
-      <img src="vk-icon.png" alt="ВКонтакте" class="w-4 h-4"> ВКонтакте
+    <a href="https://vk.ru/remontotadoya96" target="_blank" rel="noopener" class="mobile-cta mobile-cta-secondary focus-ring flex-1">
+      <span class="vk-badge-solid"><img src="vk-icon.png" alt=""></span> ВКонтакте
     </a>
   </div>
 </div>
