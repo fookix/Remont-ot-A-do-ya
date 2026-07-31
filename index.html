@@ -242,7 +242,7 @@
 <header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
   <div class="glass border-b border-t-0 border-x-0">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 md:h-20 flex items-center justify-between">
-      <a href="#top" class="flex items-center gap-3 focus-ring rounded-lg">
+      <a href="#top" class="flex items-center gap-3 focus-ring rounded-lg shrink-0">
         <img src="favicon.webp" alt="Ремонт от А до Я" width="44" height="44" class="w-10 h-10 md:w-11 md:h-11 rounded-xl">
         <div class="leading-tight">
           <div class="font-display font-extrabold text-sm md:text-base tracking-tight">РЕМОНТ ОТ А ДО Я</div>
@@ -250,12 +250,14 @@
         </div>
       </a>
 
-      <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full glass" id="status-pill">
-        <span id="status-dot-el" class="status-dot w-2 h-2 rounded-full"></span>
-        <span id="status-text" class="text-xs font-mono text-[var(--ink-dim)]">Проверяем график…</span>
+      <div class="flex items-center gap-1.5 md:gap-2 px-2.5 md:px-3 py-1 md:py-1.5 rounded-full glass min-w-0 shrink mx-2" id="status-pill">
+        <span id="status-dot-el" class="status-dot w-2 h-2 rounded-full shrink-0"></span>
+        <span class="text-[11px] md:text-xs font-mono text-[var(--ink-dim)] truncate">
+          <span id="status-text">Проверяем…</span><span id="status-text-detail" class="hidden sm:inline"></span>
+        </span>
       </div>
 
-      <div class="flex items-center gap-2 md:gap-3">
+      <div class="flex items-center gap-2 md:gap-3 shrink-0">
         <a href="https://vk.ru/remontotadoya96" target="_blank" rel="noopener" aria-label="Мы во ВКонтакте"
            class="w-10 h-10 rounded-full flex items-center justify-center focus-ring transition-transform hover:scale-105"
            style="background:#fff">
@@ -767,21 +769,24 @@ document.addEventListener('DOMContentLoaded', function(){
     const h = now.getHours() + now.getMinutes()/60;
     const dot = document.getElementById('status-dot-el');
     const text = document.getElementById('status-text');
-    let color, label;
+    const detail = document.getElementById('status-text-detail');
+    let color, label, extra;
     if(h >= 9 && h < 19){
       color = getComputedStyle(document.documentElement).getPropertyValue('--green');
-      label = 'Открыто · до 20:00';
+      label = 'Открыто'; extra = ' · до 20:00';
     } else if(h >= 19 && h < 20){
       color = getComputedStyle(document.documentElement).getPropertyValue('--yellow');
-      label = 'Скоро закроемся';
+      label = 'Скоро закроемся'; extra = '';
     } else {
       color = getComputedStyle(document.documentElement).getPropertyValue('--ink-faint');
-      label = 'Закрыто · с 09:00';
+      label = 'Закрыто'; extra = ' · с 09:00';
     }
     dot.style.background = color.trim();
     dot.style.color = color.trim();
     text.textContent = label;
+    detail.textContent = extra;
     text.style.color = color.trim();
+    detail.style.color = color.trim();
   }
   updateStatus();
   setInterval(updateStatus, 60000);
