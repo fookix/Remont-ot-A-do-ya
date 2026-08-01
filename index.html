@@ -250,10 +250,10 @@
         </div>
       </a>
 
-      <div class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full glass min-w-0 shrink mx-2" id="status-pill">
-        <span id="status-dot-el" class="status-dot w-2 h-2 rounded-full shrink-0"></span>
-        <span class="text-[11px] sm:text-xs font-mono text-[var(--ink-dim)] truncate">
-          <span id="status-text">Проверяем…</span><span id="status-text-detail" class="hidden sm:inline"></span>
+      <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full glass" id="status-pill">
+        <span id="status-dot-el" class="status-dot w-2 h-2 rounded-full"></span>
+        <span class="text-xs font-mono text-[var(--ink-dim)]">
+          <span id="status-text">Проверяем…</span><span id="status-text-detail"></span>
         </span>
       </div>
 
@@ -300,6 +300,13 @@
 
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12 items-center">
     <div class="lg:col-span-7">
+      <div class="md:hidden inline-flex items-center gap-2 px-3.5 py-2 rounded-full glass mb-3" id="status-pill-mobile">
+        <span id="status-dot-el-m" class="status-dot w-2 h-2 rounded-full shrink-0"></span>
+        <span class="text-xs font-mono text-[var(--ink-dim)]">
+          <span id="status-text-m">Проверяем…</span><span id="status-text-detail-m"></span>
+        </span>
+      </div>
+
       <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs font-mono text-[var(--ink-dim)] mb-6">
         <i data-lucide="shield-check" class="w-3.5 h-3.5" style="color:var(--green)"></i>
         Работаем по договору · гарантия 1 год
@@ -767,9 +774,6 @@ document.addEventListener('DOMContentLoaded', function(){
   function updateStatus(){
     const now = new Date();
     const h = now.getHours() + now.getMinutes()/60;
-    const dot = document.getElementById('status-dot-el');
-    const text = document.getElementById('status-text');
-    const detail = document.getElementById('status-text-detail');
     let color, label, extra;
     if(h >= 9 && h < 19){
       color = getComputedStyle(document.documentElement).getPropertyValue('--green');
@@ -781,12 +785,19 @@ document.addEventListener('DOMContentLoaded', function(){
       color = getComputedStyle(document.documentElement).getPropertyValue('--ink-faint');
       label = 'Закрыто'; extra = ' · с 09:00';
     }
-    dot.style.background = color.trim();
-    dot.style.color = color.trim();
-    text.textContent = label;
-    detail.textContent = extra;
-    text.style.color = color.trim();
-    detail.style.color = color.trim();
+    color = color.trim();
+    [['status-dot-el','status-text','status-text-detail'], ['status-dot-el-m','status-text-m','status-text-detail-m']].forEach(function(ids){
+      const dot = document.getElementById(ids[0]);
+      const text = document.getElementById(ids[1]);
+      const detail = document.getElementById(ids[2]);
+      if(!dot || !text || !detail) return;
+      dot.style.background = color;
+      dot.style.color = color;
+      text.textContent = label;
+      detail.textContent = extra;
+      text.style.color = color;
+      detail.style.color = color;
+    });
   }
   updateStatus();
   setInterval(updateStatus, 60000);
